@@ -72,7 +72,7 @@ function Form(){
                 ))}
                 <p className='text-red-500'>{errors.rating?.message}</p>
             </div>
-            <label htmlFor='price'>Price:</label>
+            <label htmlFor='price'>Price INR:</label>
             <input id='price' className='border w-[15vw] border-black'
                    type='number' {...register("price",
                 {required:{
