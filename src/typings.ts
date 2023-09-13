@@ -93,4 +93,21 @@ export interface IResponseAddCart{
     products:IResponseAddCartProducts[]
 }
 
+//FormInput Interfaces
+export interface IFormInputs {
+    title: string;
+    category: string;
+    price: number;
+    thumbnail: string;
+    rating:number;
+    description:string;
+}
+
+export interface IAddedProduct {
+    title: string;
+    category: string;
+    price: number;
+    rating:number;
+    description:string;
+}
 
