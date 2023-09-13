@@ -5,7 +5,7 @@ const addProductsStore = (set) => ({
 
     initializeProductsArray: (productsArray:IAddedProduct[]) => {
         set((state) => ({
-            products: productsArray || [], // Initialize with the provided array or an empty array
+            products: productsArray
         }));
     },
     addNewProduct: (prod:IAddedProduct) => {
