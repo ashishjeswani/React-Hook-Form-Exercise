@@ -111,3 +111,15 @@ export interface IAddedProduct {
     description:string;
 }
 
+//Added Products Interfaces
+// export interface IAddedProductsStore {
+//     products:IAddedProduct[],
+//     addProduct:(product:IAddedProduct)=>void,
+//     deleteProduct:(title:string)=>void,
+//     updateProduct:(product:IAddedProduct)=>void,
+// }
+
+// export interface ZustandStore {
+//     products:IAddedProduct[],
+//     addNewProduct:()
+// }

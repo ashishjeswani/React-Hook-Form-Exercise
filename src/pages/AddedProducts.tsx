@@ -1,9 +1,15 @@
 import Form from "../components/Form.tsx";
 import { IAddedProduct } from "../typings.ts";
-import { useState } from "react";
+import {useAddedStore} from "../stores/ZustandStore.ts";
+import {useState} from "react";
 
 export default function AddedProducts() {
-    const initialToggleStates = JSON.parse(localStorage.getItem('products')).map(() => false);
+    const addedProducts = useAddedStore(state => state.products)
+
+    const delProduct = useAddedStore(state => state.delProduct)
+
+
+    const initialToggleStates = addedProducts.map(() => false);
     const [editFormToggles, setEditFormToggles] = useState<boolean[]>(initialToggleStates);
 
     function handleUpdateProduct(index: number) {
@@ -14,6 +20,15 @@ export default function AddedProducts() {
         });
     }
 
+    // useEffect(() => {
+    //     const existingProductsJSON = localStorage.getItem('products');
+    //     if (existingProductsJSON) {
+    //         const existingProducts: IAddedProduct[] = JSON.parse(existingProductsJSON);
+    //         initProducts(existingProducts);
+    //     }
+    // }, [initProducts]);
+
+
     return (
         <section className="p-4">
             <h1 className="text-2xl font-semibold">Add Products</h1>
@@ -22,7 +37,7 @@ export default function AddedProducts() {
             </section>
             <section className="flex flex-col p-4 m-4 border-black border text-md w-[50vw]">
                 <h1 className="text-2xl">Products Added:</h1>
-                {JSON.parse(localStorage.getItem('products')).map((prod: IAddedProduct, index: number) => (
+                {addedProducts.map((prod: IAddedProduct, index: number) => (
                     <section
                         key={prod.title}
                         className="flex flex-col items-start space-x-2 border-black border rounded-md m-2"
@@ -35,9 +50,9 @@ export default function AddedProducts() {
                             onClick={() => handleUpdateProduct(index)}
                             className="p-2 bg-green-500 rounded-md text-white m-2"
                         >
-                            Edit Product
+                            {editFormToggles[index] ? 'Cancel Edit' : 'Edit'}
                         </button>
-                        <button className={` ${editFormToggles ? 'inline-flex':'hidden'} p-2 bg-red-500 rounded-md text-white m-2`}>Cancel</button>
+                        <button onClick={()=>delProduct(prod.title)} className={` p-2 bg-red-500 rounded-md text-white m-2`}>Delete Product</button>
                         {editFormToggles[index] ? (
                             <section className="flex flex-col border-black border p-3 w-[50vw] m-4">
                                 <Form />
