@@ -2,12 +2,11 @@ import Form from "../components/Form.tsx";
 import { IAddedProduct } from "../typings.ts";
 import {useAddedStore} from "../stores/ZustandStore.ts";
 import {useState} from "react";
+import UpdateForm from "../components/UpdateForm.tsx";
 
 export default function AddedProducts() {
     const addedProducts = useAddedStore(state => state.products)
-
     const delProduct = useAddedStore(state => state.delProduct)
-
 
     const initialToggleStates = addedProducts.map(() => false);
     const [editFormToggles, setEditFormToggles] = useState<boolean[]>(initialToggleStates);
@@ -19,14 +18,6 @@ export default function AddedProducts() {
             return newToggles;
         });
     }
-
-    // useEffect(() => {
-    //     const existingProductsJSON = localStorage.getItem('products');
-    //     if (existingProductsJSON) {
-    //         const existingProducts: IAddedProduct[] = JSON.parse(existingProductsJSON);
-    //         initProducts(existingProducts);
-    //     }
-    // }, [initProducts]);
 
 
     return (
@@ -42,6 +33,7 @@ export default function AddedProducts() {
                         key={prod.title}
                         className="flex flex-col items-start space-x-2 border-black border rounded-md m-2"
                     >
+                        <h1>{prod.id}</h1>
                         <h2>Title: {prod.title}</h2>
                         <p>Category: {prod.category}</p>
                         <p>Price: ${prod.price}</p>
@@ -52,10 +44,10 @@ export default function AddedProducts() {
                         >
                             {editFormToggles[index] ? 'Cancel Edit' : 'Edit'}
                         </button>
-                        <button onClick={()=>delProduct(prod.title)} className={` p-2 bg-red-500 rounded-md text-white m-2`}>Delete Product</button>
+                        <button onClick={()=>delProduct(prod.id)} className={` p-2 bg-red-500 rounded-md text-white m-2`}>Delete Product</button>
                         {editFormToggles[index] ? (
-                            <section className="flex flex-col border-black border p-3 w-[50vw] m-4">
-                                <Form />
+                            <section className="flex flex-col border-black border rouned-md p-3 w-[30vw] m-2">
+                                <UpdateForm productId={prod.id}/>
                             </section>
                         ) : null}
                     </section>

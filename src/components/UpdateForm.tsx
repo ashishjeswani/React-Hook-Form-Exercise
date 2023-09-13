@@ -5,40 +5,34 @@ import {useFetch} from "../helpers/useFetch.ts";
 import {DevTool} from "@hookform/devtools";
 import {useAddedStore} from "../stores/ZustandStore.ts";
 
-function Form(){
 
-    const {register, handleSubmit,control,formState:{errors},reset}= useForm<IFormInputs>()
-    const [categories, setCategories] = useState<string[]>([]);
-    const {data:categoriesData}=useFetch<string[]>('https://dummyjson.com/products/categories')
-    const addNewProduct = useAddedStore((state)=>state.addNewProduct)
-    const addedProducts = useAddedStore(state => state.products)
-    const onSubmit: SubmitHandler<IFormInputs> = (data:IAddedProduct) => {
-        console.log('FromData',data);
+function UpdateForm({productId}:{productId:number}){
 
-        const existingProductIndex = addedProducts.findIndex((product:IAddedProduct) => product.id === data.id);
-        if (existingProductIndex !== -1) {
-            alert('Same ID error')
-        } else {
-            addNewProduct(data);
-        }
-        reset()
-    };
+        const {register, handleSubmit,control,formState:{errors},reset}= useForm<IFormInputs>()
+        const [categories, setCategories] = useState<string[]>([]);
+        const {data:categoriesData}=useFetch<string[]>('https://dummyjson.com/products/categories')
+        const updateProduct = useAddedStore(state => state.updateProduct)
 
 
-    useEffect(() => {
-        if(categoriesData){
-            setCategories(categoriesData)
-        }
-    }, [categoriesData]);
+        useEffect(() => {
+                if(categoriesData){
+                        setCategories(categoriesData)
+                }
+        }, [categoriesData]);
 
 
-    return(
-        <>
+        const onSubmit: SubmitHandler<IFormInputs> = (data:IAddedProduct) => {
+                console.log('FromData',data);
+                updateProduct(data)
+
+                reset()
+        };
+
+        return(
+            <>
         <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col space-y-3' noValidate>
             <label htmlFor='id'>Generate a new ProductID:</label>
-            <input {...register('id',{
-                required:true,
-            })} value={(Math.random()*1000).toFixed()} readOnly={true}/>
+            <input value={productId} readOnly={true}/>
             <label htmlFor="title">Product Title:</label>
             <input placeholder='Product Title' id='title' className='border w-[15vw] border-black'
                    type='text'
@@ -48,7 +42,7 @@ function Form(){
                        },maxLength:20,minLength:3})} />
             <p className='text-red-500'>{errors.title?.message}</p>
             <label htmlFor='description'>Description:</label>
-            <textarea placeholder='Description' id='description' className='border w-[45vw] border-black min-h-[30vh]'
+            <textarea placeholder='Description' id='description' className='border w-[25vw] border-black min-h-[30vh]'
                       {...register("description",
                           {required:{
                                   value:true,
@@ -96,11 +90,8 @@ function Form(){
             <p className='text-red-500'>{errors.category?.message}</p>
             <input className='p-2 bg-blue-500 rounded-md text-white' type='submit'/>
         </form>
-    <DevTool control={control} />
-        </>
+                    <DevTool control={control} />
+            </>
     )
-
-
 }
-
-export default Form
+export default UpdateForm

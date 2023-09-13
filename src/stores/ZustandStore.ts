@@ -13,16 +13,16 @@ const addProductsStore = (set) => ({
             products: [...state.products, prod],
         }));
     },
-    delProduct: (title:string) => {
+    delProduct: (id:number) => {
         set((state) => ({
             products: state.products.filter((product:IAddedProduct) => {
-                return product.title !== title;
+                return product.id !== id;
             }),
         }));
     },
     updateProduct: (updatedProduct:IAddedProduct) => {
         set((state) => {
-            const index = state.products.findIndex((product:IAddedProduct) => product.title === updatedProduct.title);
+            const index = state.products.findIndex((product:IAddedProduct) => product.id === updatedProduct.id);
             if (index !== -1) {
                 const updatedProducts = [...state.products];
                 updatedProducts[index] = updatedProduct;

@@ -95,6 +95,7 @@ export interface IResponseAddCart{
 
 //FormInput Interfaces
 export interface IFormInputs {
+    id:number;
     title: string;
     category: string;
     price: number;
@@ -104,6 +105,7 @@ export interface IFormInputs {
 }
 
 export interface IAddedProduct {
+    id:number;
     title: string;
     category: string;
     price: number;
